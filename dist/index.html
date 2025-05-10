@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="#" type="image/x-icon" />
+    <title>To-do List</title>
+  </head>
+  <body>
+    <h1>To-do List</h1>
+    <form id="project-form">
+      <input type="text" id="project-name" placeholder="New Project..." />
+      <button type="submit">Add project</button>
+    </form>
+    <form id="todo-form">
+        <input type="text" id="todo-title" placeholder="Task title" required>
+        <input type="date" id="todo-due-date" required>
+        <input type="text" id="todo-description" placeholder="Task description">
+        <select id="todo-priority">
+          <option value="low">Low</option>
+          <option value="normal" selected>Normal</option>
+          <option value="high">High</option>
+        </select>
+        <textarea id="todo-notes" placeholder="Task notes"></textarea>
+        <select id="todo-project-select"></select>
+        <button type="submit">Add task</button>
+    </form>
+    <div id="app"></div>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
