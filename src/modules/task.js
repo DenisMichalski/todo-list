@@ -1,18 +1,23 @@
-const createTask = (
-  title,
-  description,
-  dueDate,
-  priority = "normal",
-  notes = "",
-  checklist = []
-) => {
+function createTask(title, description, dueDate, priority, notes) {
   let completed = false;
 
   const toggleComplete = () => {
     completed = !completed;
   };
 
-  const isCompleted = () => completed;
+  const edit = (
+    newTitle,
+    newDescription,
+    newDueDate,
+    newPriority,
+    newNotes
+  ) => {
+    title = newTitle;
+    description = newDescription;
+    dueDate = newDueDate;
+    priority = newPriority;
+    notes = newNotes;
+  };
 
   const getInfo = () => {
     return {
@@ -21,16 +26,15 @@ const createTask = (
       dueDate,
       priority,
       notes,
-      checklist,
       completed,
     };
   };
 
   return {
-    toggleComplete,
-    isCompleted,
     getInfo,
+    toggleComplete,
+    edit,
   };
-};
+}
 
 export default createTask;

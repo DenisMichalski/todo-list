@@ -20,23 +20,13 @@ projectManager.init();
 projectManager.addProject("Work");
 projectManager.addProject("Privat");
 
-console.log("All Projects:", projectManager.getProjects());
-
 const work = projectManager.getProjectByName("Work");
 work.addTask(createTask("Reply to email", "Important!", "2025-05-04"));
 
-console.log("Tasks in progress:", work.getTasks());
-
 projectManager.removeProject("Privat");
-console.log("After deletion:", projectManager.getProjects());
 
-console.log(project.getName());
-console.log(project.getTasks());
 project.removeTask("Course completed");
-console.log(project.getTasks());
 
-console.log(task.getInfo());
 task.toggleComplete();
-console.log(task.getInfo());
 
 domController.init();

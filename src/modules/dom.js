@@ -10,9 +10,60 @@ const todoNotesInput = document.getElementById("todo-notes");
 const todoProjectSelect = document.getElementById("todo-project-select");
 
 const domController = (() => {
+  let currentTaskToEdit = null;
   const appContainer = document.getElementById("app");
   const projectForm = document.getElementById("project-form");
   const projectNameInput = document.getElementById("project-name");
+
+const saveToLocalStorage = () => {
+  const projects = projectManager.getProjects();
+  const data = projects.map((project) => {
+    return {
+      name: project.getName(),
+      tasks: project.getTasks().map((task) => task.getInfo()),
+    };
+  });
+
+  localStorage.setItem("todoData", JSON.stringify(data));
+};
+
+
+ const loadFromLocalStorage = () => {
+   const savedData = JSON.parse(localStorage.getItem("todoData"));
+   if (!savedData) return;
+
+   // 1. Projekte erstellen
+   savedData.forEach((proj) => {
+     projectManager.addProject(proj.name);
+   });
+
+   // 2. Aufgaben den Projekten hinzufügen
+   savedData.forEach((proj) => {
+     const project = projectManager
+       .getProjects()
+       .find((p) => p.getName() === proj.name);
+
+     if (!project) return; // Sicherheitsabfrage
+
+     proj.tasks.forEach((task) => {
+       const newTask = createTask(
+         task.title,
+         task.description,
+         task.dueDate,
+         task.priority,
+         task.notes
+       );
+
+       // Zustand "completed" manuell setzen
+       if (task.completed) {
+         newTask.toggleComplete();
+       }
+
+       project.addTask(newTask);
+     });
+   });
+ };
+
 
   const updateProjectDropdown = () => {
     todoProjectSelect.innerText = "";
@@ -45,6 +96,8 @@ const domController = (() => {
         const li = document.createElement("li");
         const info = task.getInfo();
 
+        li.classList.add(`priority-${info.priority}`);
+
         const checkBox = document.createElement("input");
         checkBox.type = "checkbox";
         checkBox.checked = info.completed;
@@ -52,36 +105,68 @@ const domController = (() => {
         checkBox.addEventListener("change", () => {
           task.toggleComplete();
           renderProjects(); // re render
+          saveToLocalStorage();
         });
 
-        const contentDiv = document.createElement("div");
-        contentDiv.innerHTML = `
-  <strong>${info.title}</strong> (Due: ${info.dueDate})<br>
-  Description: ${info.description || "-"}<br>
-  Priority: ${info.priority} <br>
-  Notes: ${info.notes || "-"}<br>
-  <em>Completed:</em> ${info.completed ? "✅" : "❌"}
-`;
-
         li.appendChild(checkBox);
-        li.appendChild(contentDiv);
 
-        if (info.completed) {
-          li.style.textDecoration = "line-through";
-          li.style.opacity = "0.6";
-          console.log(info);
-        }
+        const contentDiv = document.createElement("div");
+
+        const titleEl = document.createElement("strong");
+        titleEl.textContent = info.title;
+
+        const dueDateEl = document.createElement("span");
+        dueDateEl.innerHTML = `(Due: ${info.dueDate})`;
+
+        const descriptionEl = document.createElement("div");
+        descriptionEl.textContent = `Description: ${info.description || "-"}`;
+
+        const priorityEl = document.createElement("div");
+        priorityEl.textContent = `Priority: ${info.priority}`;
+
+        const noteEl = document.createElement("div");
+        noteEl.textContent = `Notes: ${info.notes || "-"}`;
+
+        const completedEl = document.createElement("div");
+        completedEl.innerHTML = `<em>completed:</em> ${
+          info.completed ? "✅" : "❌"
+        }`;
+
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.addEventListener("click", () => {
+          todoTitleInput.value = info.title;
+          todoDueDateInput.value = info.dueDate;
+          todoDescriptionInput.value = info.description;
+          todoPrioritySelect.value = info.priority;
+          todoNotesInput.value = info.notes;
+          currentTaskToEdit = task;
+        });
 
         const removeButton = document.createElement("button");
         removeButton.textContent = "Remove";
         removeButton.addEventListener("click", () => {
           project.removeTask(info.title);
           renderProjects();
+          saveToLocalStorage();
         });
 
-        li.appendChild(removeButton);
+        contentDiv.appendChild(titleEl);
+        contentDiv.appendChild(dueDateEl);
+        contentDiv.appendChild(descriptionEl);
+        contentDiv.appendChild(priorityEl);
+        contentDiv.appendChild(noteEl);
+        contentDiv.appendChild(completedEl);
+        contentDiv.appendChild(editButton);
+        contentDiv.appendChild(removeButton);
 
+        li.appendChild(contentDiv);
         taskList.appendChild(li);
+
+        if (info.completed) {
+          li.style.textDecoration = "line-through";
+          li.style.opacity = "0.6";
+        }
       });
 
       projectDiv.appendChild(taskList);
@@ -99,6 +184,7 @@ const domController = (() => {
       projectManager.addProject(name);
       projectNameInput.value = "";
       renderProjects();
+      saveToLocalStorage();
     });
 
     todoForm.addEventListener("submit", (e) => {
@@ -118,17 +204,29 @@ const domController = (() => {
 
       if (!project) return;
 
-      const task = createTask(title, description, dueDate, priority, notes);
-      project.addTask(task);
+      if (currentTaskToEdit) {
+        currentTaskToEdit.edit(title, description, dueDate, priority, notes);
+        saveToLocalStorage();
+        currentTaskToEdit = null;
+      } else {
+        const task = createTask(title, description, dueDate, priority, notes);
+        project.addTask(task);
+        saveToLocalStorage();
+      }
 
       todoTitleInput.value = "";
       todoDueDateInput.value = "";
       todoDescriptionInput.value = "";
-      (todoNotesInput.value = ""), renderProjects();
+      todoPrioritySelect.value = "normal";
+      todoNotesInput.value = "";
+
+      renderProjects();
+      saveToLocalStorage();
     });
   };
 
   const init = () => {
+    loadFromLocalStorage();
     setupEventListeners();
     renderProjects();
   };
