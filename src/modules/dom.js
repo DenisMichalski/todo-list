@@ -32,18 +32,20 @@ const saveToLocalStorage = () => {
    const savedData = JSON.parse(localStorage.getItem("todoData"));
    if (!savedData) return;
 
-   // 1. Projekte erstellen
+   projectManager.clearProjects();
+
+  
    savedData.forEach((proj) => {
      projectManager.addProject(proj.name);
    });
 
-   // 2. Aufgaben den Projekten hinzufügen
+  
    savedData.forEach((proj) => {
      const project = projectManager
        .getProjects()
        .find((p) => p.getName() === proj.name);
 
-     if (!project) return; // Sicherheitsabfrage
+     if (!project) return; 
 
      proj.tasks.forEach((task) => {
        const newTask = createTask(
@@ -51,10 +53,11 @@ const saveToLocalStorage = () => {
          task.description,
          task.dueDate,
          task.priority,
-         task.notes
+         task.notes,
+         task.id
        );
 
-       // Zustand "completed" manuell setzen
+      
        if (task.completed) {
          newTask.toggleComplete();
        }
@@ -146,7 +149,7 @@ const saveToLocalStorage = () => {
         const removeButton = document.createElement("button");
         removeButton.textContent = "Remove";
         removeButton.addEventListener("click", () => {
-          project.removeTask(info.title);
+          project.removeTask(info.id);
           renderProjects();
           saveToLocalStorage();
         });

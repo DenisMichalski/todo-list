@@ -1,4 +1,6 @@
-function createTask(title, description, dueDate, priority, notes) {
+const createTask = (title, description, dueDate, priority, notes) => {
+  const id = Date.now().toString();
+
   let completed = false;
 
   const toggleComplete = () => {
@@ -21,6 +23,7 @@ function createTask(title, description, dueDate, priority, notes) {
 
   const getInfo = () => {
     return {
+      id,
       title,
       description,
       dueDate,
@@ -31,9 +34,9 @@ function createTask(title, description, dueDate, priority, notes) {
   };
 
   return {
-    getInfo,
     toggleComplete,
     edit,
+    getInfo,
   };
 }
 

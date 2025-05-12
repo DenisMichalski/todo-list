@@ -6,12 +6,17 @@ const createProject = (name) => {
   };
 
   // Hinzufügen der removeTask-Methode
-  const removeTask = (taskTitle) => {
-    const index = tasks.findIndex((task) => task.getInfo().title === taskTitle);
+  const removeTask = (taskId) => {
+    const index = tasks.findIndex((task) => task.getInfo().id === taskId);
     if (index !== -1) {
       tasks.splice(index, 1); // Entfernt die Aufgabe anhand des Titels
     }
   };
+
+  const clearProjects = () => {
+  projects.length = 0; // Leert das Projekt-Array
+};
+
 
   const getTasks = () => tasks;
   const getName = () => name;
