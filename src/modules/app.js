@@ -1,3 +1,4 @@
+//app.js
 import createProject from "./project";
 
 const projectManager = (() => {
@@ -27,12 +28,17 @@ const projectManager = (() => {
     return projects.find((proj) => proj.getName() === name);
   };
 
+  const clearProjects = () => {
+    projects.length = 0; 
+  };
+
   return {
     init,
     getProjects,
     addProject,
     removeProject,
     getProjectByName,
+    clearProjects,
   };
 })();
 
