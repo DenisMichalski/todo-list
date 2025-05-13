@@ -15,58 +15,53 @@ const domController = (() => {
   const projectForm = document.getElementById("project-form");
   const projectNameInput = document.getElementById("project-name");
 
-const saveToLocalStorage = () => {
-  const projects = projectManager.getProjects();
-  const data = projects.map((project) => {
-    return {
-      name: project.getName(),
-      tasks: project.getTasks().map((task) => task.getInfo()),
-    };
-  });
+  const saveToLocalStorage = () => {
+    const projects = projectManager.getProjects();
+    const data = projects.map((project) => {
+      return {
+        name: project.getName(),
+        tasks: project.getTasks().map((task) => task.getInfo()),
+      };
+    });
 
-  localStorage.setItem("todoData", JSON.stringify(data));
-};
+    localStorage.setItem("todoData", JSON.stringify(data));
+  };
 
+  const loadFromLocalStorage = () => {
+    const savedData = JSON.parse(localStorage.getItem("todoData"));
+    if (!savedData) return;
 
- const loadFromLocalStorage = () => {
-   const savedData = JSON.parse(localStorage.getItem("todoData"));
-   if (!savedData) return;
+    projectManager.clearProjects();
 
-   projectManager.clearProjects();
+    savedData.forEach((proj) => {
+      projectManager.addProject(proj.name);
+    });
 
-  
-   savedData.forEach((proj) => {
-     projectManager.addProject(proj.name);
-   });
+    savedData.forEach((proj) => {
+      const project = projectManager
+        .getProjects()
+        .find((p) => p.getName() === proj.name);
 
-  
-   savedData.forEach((proj) => {
-     const project = projectManager
-       .getProjects()
-       .find((p) => p.getName() === proj.name);
+      if (!project) return;
 
-     if (!project) return; 
+      proj.tasks.forEach((task) => {
+        const newTask = createTask(
+          task.title,
+          task.description,
+          task.dueDate,
+          task.priority,
+          task.notes,
+          task.id
+        );
 
-     proj.tasks.forEach((task) => {
-       const newTask = createTask(
-         task.title,
-         task.description,
-         task.dueDate,
-         task.priority,
-         task.notes,
-         task.id
-       );
+        if (task.completed) {
+          newTask.toggleComplete();
+        }
 
-      
-       if (task.completed) {
-         newTask.toggleComplete();
-       }
-
-       project.addTask(newTask);
-     });
-   });
- };
-
+        project.addTask(newTask);
+      });
+    });
+  };
 
   const updateProjectDropdown = () => {
     todoProjectSelect.innerText = "";
@@ -80,7 +75,7 @@ const saveToLocalStorage = () => {
   };
 
   const renderProjects = () => {
-    appContainer.innerText = "";
+    appContainer.innerHTML = "";
     updateProjectDropdown();
 
     const projects = projectManager.getProjects();
@@ -107,7 +102,7 @@ const saveToLocalStorage = () => {
 
         checkBox.addEventListener("change", () => {
           task.toggleComplete();
-          renderProjects(); // re render
+          renderProjects();
           saveToLocalStorage();
         });
 
@@ -150,6 +145,14 @@ const saveToLocalStorage = () => {
         removeButton.textContent = "Remove";
         removeButton.addEventListener("click", () => {
           project.removeTask(info.id);
+
+          if (
+            project.getTasks().length === 0 &&
+            project.getName() !== "Standard project"
+          ) {
+            projectManager.removeProject(project.getName());
+          }
+
           renderProjects();
           saveToLocalStorage();
         });

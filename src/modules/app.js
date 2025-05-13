@@ -19,10 +19,13 @@ const projectManager = (() => {
     projects.push(newProject);
   };
 
-  const removeProject = (name) => {
-    const index = projects.findIndex((proj) => proj.getName() === name);
-    if (index !== -1) projects.splice(index, 1);
-  };
+ const removeProject = (name) => {
+   const index = projects.findIndex((proj) => proj.getName() === name);
+   if (index !== -1) {
+     projects.splice(index, 1);
+   }
+ };
+
 
   const getProjectByName = (name) => {
     return projects.find((proj) => proj.getName() === name);
