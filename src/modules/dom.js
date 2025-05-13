@@ -144,18 +144,22 @@ const domController = (() => {
         const removeButton = document.createElement("button");
         removeButton.textContent = "Remove";
         removeButton.addEventListener("click", () => {
-          project.removeTask(info.id);
+         project.removeTask(info.id);
 
-          if (
-            project.getTasks().length === 0 &&
-            project.getName() !== "Standard project"
-          ) {
-            projectManager.removeProject(project.getName());
-          }
+         const projectName = project.getName();
+         const isStandardProject =
+           projectName.toLowerCase() === "standard project";
 
-          renderProjects();
-          saveToLocalStorage();
+         if (project.getTasks().length === 0 && !isStandardProject) {
+           projectManager.removeProject(projectName);
+         }
+
+         // Jetzt synchronisieren:
+         saveToLocalStorage();
+         renderProjects();
+
         });
+
 
         contentDiv.appendChild(titleEl);
         contentDiv.appendChild(dueDateEl);
