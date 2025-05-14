@@ -1,31 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="#" type="image/x-icon" />
-    <title>To-do List</title>
-  <script defer src="./main.js"></script></head>
-  <body>
-    <h1>To-do List</h1>
-    <form id="project-form">
-      <input type="text" id="project-name" placeholder="New Project..." />
-      <button type="submit">Add project</button>
-    </form>
-    <form id="todo-form">
-        <input type="text" id="todo-title" placeholder="Task title" required>
-        <input type="date" id="todo-due-date" required>
-        <input type="text" id="todo-description" placeholder="Task description">
-        <select id="todo-priority">
-          <option value="low">Low</option>
-          <option value="normal" selected>Normal</option>
-          <option value="high">High</option>
-        </select>
-        <textarea id="todo-notes" placeholder="Task notes"></textarea>
-        <select id="todo-project-select"></select>
-        <button type="submit">Add task</button>
-    </form>
-    <div id="app"></div>
-    <script type="module" src="main.js"></script>
-  </body>
-</html>
+<head><script defer src="./main.js"></script><script defer src="./main.js"></script><script defer src="./main.js"></script></head>Html Webpack Plugin:
+<pre>
+  Error: Child compilation failed:
+  Module not found: Error: Can't resolve '/home/michalskidenis/Schreibt  isch/todo-list/dist/index.html' in '/home/michalskidenis/Schreibtisch  /todo-list'
+  ModuleNotFoundError: Module not found: Error: Can't resolve '/home/mi  chalskidenis/Schreibtisch/todo-list/dist/index.html' in '/home/michal  skidenis/Schreibtisch/todo-list'
+      at /home/michalskidenis/Schreibtisch/todo-list/node_modules/webpa  ck/lib/Compilation.js:2232:28
+      at /home/michalskidenis/Schreibtisch/todo-list/node_modules/webpa  ck/lib/NormalModuleFactory.js:928:13
+      at eval (eval at create (/home/michalskidenis/Schreibtisch/todo-l  ist/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:1  0:1)
+      at /home/michalskidenis/Schreibtisch/todo-list/node_modules/webpa  ck/lib/NormalModuleFactory.js:338:22
+      at eval (eval at create (/home/michalskidenis/Schreibtisch/todo-l  ist/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:9  :1)
+      at /home/michalskidenis/Schreibtisch/todo-list/node_modules/webpa  ck/lib/NormalModuleFactory.js:520:22
+      at /home/michalskidenis/Schreibtisch/todo-list/node_modules/webpa  ck/lib/NormalModuleFactory.js:159:10
+      at /home/michalskidenis/Schreibtisch/todo-list/node_modules/webpa  ck/lib/NormalModuleFactory.js:788:25
+      at /home/michalskidenis/Schreibtisch/todo-list/node_modules/webpa  ck/lib/NormalModuleFactory.js:1013:8
+      at /home/michalskidenis/Schreibtisch/todo-list/node_modules/webpa  ck/lib/NormalModuleFactory.js:1142:5
+  
+  - Compilation.js:2232 
+    [todo-list]/[webpack]/lib/Compilation.js:2232:28
+  
+  - NormalModuleFactory.js:928 
+    [todo-list]/[webpack]/lib/NormalModuleFactory.js:928:13
+  
+  
+  - NormalModuleFactory.js:338 
+    [todo-list]/[webpack]/lib/NormalModuleFactory.js:338:22
+  
+  
+  - NormalModuleFactory.js:520 
+    [todo-list]/[webpack]/lib/NormalModuleFactory.js:520:22
+  
+  - NormalModuleFactory.js:159 
+    [todo-list]/[webpack]/lib/NormalModuleFactory.js:159:10
+  
+  - NormalModuleFactory.js:788 
+    [todo-list]/[webpack]/lib/NormalModuleFactory.js:788:25
+  
+  - NormalModuleFactory.js:1013 
+    [todo-list]/[webpack]/lib/NormalModuleFactory.js:1013:8
+  
+  - NormalModuleFactory.js:1142 
+    [todo-list]/[webpack]/lib/NormalModuleFactory.js:1142:5
+  
+  - child-compiler.js:211 
+    [todo-list]/[html-webpack-plugin]/lib/child-compiler.js:211:18
+  
+  - Compiler.js:625 finalCallback
+    [todo-list]/[webpack]/lib/Compiler.js:625:5
+  
+  - Compiler.js:661 
+    [todo-list]/[webpack]/lib/Compiler.js:661:11
+  
+  - Compiler.js:1347 
+    [todo-list]/[webpack]/lib/Compiler.js:1347:17
+  
+  
+  - Hook.js:18 Hook.CALL_ASYNC_DELEGATE [as _callAsync]
+    [todo-list]/[tapable]/lib/Hook.js:18:14
+  
+  - Compiler.js:1343 
+    [todo-list]/[webpack]/lib/Compiler.js:1343:33
+  
+  - Compilation.js:3062 finalCallback
+    [todo-list]/[webpack]/lib/Compilation.js:3062:11
+  
+  - Compilation.js:3405 
+    [todo-list]/[webpack]/lib/Compilation.js:3405:11
+  
+  
+</pre>
