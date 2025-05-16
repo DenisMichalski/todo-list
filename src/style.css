@@ -1,40 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Eigenes Custom CSS – darf NACH den Tailwind-Direktiven kommen */
 body {
-  font-family: sans-serif;
-  padding: 2rem;
-  background-color: #f4f4f4;
+  @apply font-sans p-8 bg-gray-100;
 }
 
 form {
-  margin-bottom: 1rem;
+  @apply mb-4;
 }
 
 input {
-  padding: 0.5rem;
-  margin-right: 0.5rem;
-}
-
-#todo-form {
-    margin-bottom: 1rem;
+  @apply p-2 mr-2;
 }
 
 #todo-form input,
 #todo-form select,
 #todo-form button {
-    margin-right: 0.5rem;
-    padding: 0.4rem;
+  @apply mr-2 p-2;
 }
 
+/* Optionale Klassennamen für Task-Karten */
 .priority-high {
-  border-left: 4px solid red;
-  background-color: #ffe5e5;
+  @apply border-l-4 border-red-500 bg-red-100;
 }
 
 .priority-normal {
-  border-left: 4px solid gray;;
-  background-color: #f5f5f5;
+  @apply border-l-4 border-gray-500 bg-gray-100;
 }
 
 .priority-low {
-  border-left: 4px solid green;
-  background-color: #e5ff35;
+  @apply border-l-4 border-green-500 bg-lime-200;
+}
+
+
+.test-bg {
+  background-color: theme('colors.red.500');
+}
+
+
+body {
+  background-color: brown;
 }

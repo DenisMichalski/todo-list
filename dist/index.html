@@ -1,31 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="#" type="image/x-icon" />
-    <title>To-do List</title>
-  <script defer src="./main.js"></script><script defer src="./main.js"></script></head>
-  <body>
-    <h1>To-do List</h1>
-    <form id="project-form">
-      <input type="text" id="project-name" placeholder="New Project..." />
-      <button type="submit">Add project</button>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="#" type="image/x-icon" />
+  <title>To-do List</title>
+</head>
+
+<body class="bg-gray-100 text-gray-900 font-sans p-4">
+  <div class="max-w-3xl mx-auto space-y-6">
+    <h1 class="text-3xl font-bold text-center">To-do List</h1>
+
+    <form id="project-form" class="flex items-center gap-2">
+      <input type="text" id="project-name" placeholder="Neues Projekt..."
+        class="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+        Projekt hinzufügen
+      </button>
     </form>
-    <form id="todo-form">
-        <input type="text" id="todo-title" placeholder="Task title" required>
-        <input type="date" id="todo-due-date" required>
-        <input type="text" id="todo-description" placeholder="Task description">
-        <select id="todo-priority">
-          <option value="low">Low</option>
-          <option value="normal" selected>Normal</option>
-          <option value="high">High</option>
-        </select>
-        <textarea id="todo-notes" placeholder="Task notes"></textarea>
-        <select id="todo-project-select"></select>
-        <button type="submit">Add task</button>
+
+    <form id="todo-form" class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <input type="text" id="todo-title" placeholder="Titel der Aufgabe" required
+        class="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+      <input type="date" id="todo-due-date" required
+        class="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+      <input type="text" id="todo-description" placeholder="Aufgabenbeschreibung"
+        class="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 col-span-full" />
+      <select id="todo-priority" class="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+        <option value="low">Niedrig</option>
+        <option value="normal" selected>Mittel</option>
+        <option value="high">Hoch</option>
+      </select>
+      <select id="todo-project-select"
+        class="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></select>
+      <textarea id="todo-notes" placeholder="Notizen"
+        class="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 col-span-full"></textarea>
+      <button type="submit"
+        class="col-span-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+        Aufgabe hinzufügen
+      </button>
     </form>
-    <div id="app"></div>
-    <script type="module" src="main.js"></script>
-  </body>
+
+    <div id="app" class="mt-10"></div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+
 </html>
+
